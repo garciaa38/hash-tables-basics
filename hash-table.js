@@ -62,19 +62,31 @@ class HashTable {
   insert(key, value) {
     this.count++;
     const newPair = new KeyValuePair(key, value);
-    let arrayPos = this.hashMod(key);
-    console.log(this.data);
-    if (this.data[arrayPos] === null) {
-      this.data[arrayPos] = newPair;
+    let idx = this.hashMod(key);
+
+    if (this.data[idx] === null) {
+      this.data[idx] = newPair;
     } else {
-      console.log(this.data[arrayPos]);
-      if (this.data[arrayPos].next.key === newPair.key) {
-        console.log('TEST');
-        this.data[arrayPos].next = newPair;
-        //newPair = this.data[arrayPos].next;
+      if (this.data[idx].next) {
+        let curr = this.data[idx];
+        while(curr.next) {
+          if (curr.key === newPair.key) {
+            this.data[idx].value = newPair.value;
+            this.count--;
+          }
+          curr = curr.next;
+        }
+        if (curr.key === newPair.key) {
+          curr.value = newPair.value;
+          this.count--;
+        } else {
+        newPair.next = this.data[idx];
+        this.data[idx] = newPair;
+        }
+      } else {
+        newPair.next = this.data[idx];
+        this.data[idx] = newPair;
       }
-      newPair.next = this.data[arrayPos];
-      this.data[arrayPos] = newPair;
     }
   }
 
