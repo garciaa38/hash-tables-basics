@@ -60,7 +60,22 @@ class HashTable {
   }
 
   insert(key, value) {
-    // Your code here
+    this.count++;
+    const newPair = new KeyValuePair(key, value);
+    let arrayPos = this.hashMod(key);
+    console.log(this.data);
+    if (this.data[arrayPos] === null) {
+      this.data[arrayPos] = newPair;
+    } else {
+      console.log(this.data[arrayPos]);
+      if (this.data[arrayPos].next.key === newPair.key) {
+        console.log('TEST');
+        this.data[arrayPos].next = newPair;
+        //newPair = this.data[arrayPos].next;
+      }
+      newPair.next = this.data[arrayPos];
+      this.data[arrayPos] = newPair;
+    }
   }
 
 }
